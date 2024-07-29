@@ -1,0 +1,81 @@
+version: 2
+
+sources:
+  - name: erp
+    description: 'This is the ERP sources from adventure works. With data from sales, products, HR, and others.'
+    database: fea24_6
+    schema: raw_adventure_works
+    tables:
+      - name: product
+        description: 'Table with product data'
+        columns:
+          - name: productid
+            description: 'Chave primária da tabela funcionários.Primary key for product records.'
+            tests:
+              - unique
+              - not_null
+      - name: productsubcategory
+        description:  'Products subcategories.'
+        columns:
+          - name: productsubcategoryid
+            description: 'Primary key for Product Subcategory records.'
+            tests:
+              - unique
+              - not_null
+      - name: productcategory
+        description: 'High-level product categorization.'
+        columns:
+          - name: productcategoryid
+            description: 'Primary key for Product Category records'
+            tests:
+              - unique 
+              - not_null
+      - name: address
+        description: 'Street address information for customers, employees, and vendors.'
+        columns:
+          - name: addressid
+            description: Primary key for Address records.
+            tests:
+              - unique
+              - not_null
+      - name: stateprovince
+        description: State and province lookup table
+        columns:
+          - name: stateprovinceid
+            description: Primary key for StateProvince records
+            tests:
+              - unique 
+              - not_null
+      - name: countryregion
+        description: Lookup table containing the ISO standard codes for countries and regions.
+        columns:
+          - name: countryregioncode
+            description: ISO standard code for countries and regions. And primary key of the table.
+            tests:
+              - unique 
+              - not_null
+      - name: customer
+        description: Customer information. Can be both individuals and stores that resells Adventure Works products.
+        columns:
+          - name: customerid
+            description: Primary key for the Customers records.
+            tests:
+              - unique
+              - not_null
+      - name: person
+        description: 'Human beings involved with AdventureWorks: employees, customer contacts, and vendor contacts.'
+        columns:
+          - name: businessentityid
+            description: Primary key for Person records.
+            tests:
+              - unique
+              - not_null
+      - name: store
+        description: Customers (resellers) of Adventure Works products.
+        columns:
+          - name: businessentityid
+            description: Primary key for the store customers records
+            tests:
+              - unique 
+              - not_null
+              

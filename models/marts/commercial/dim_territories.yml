@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: dim_territories
+    description: >
+      Adventure Works territory dimension table.
+    columns:
+      - name: PK_TERRITORY
+        description: Primary key from the product dimension table.
+          - unique
+          - not_null
+              
+      - name: CITY_NAME
+        description: Name of the city.
+      
+      - name: STATE_NAME
+        description: State or province name.
+
+      - name: STATE_CODE
+        description: ISO standard region code.
+
+      - name: COUNTRY_CODE
+        description: ISO standard country code.
+      
+      - name: COUNTRY_NAME
+        description: Name of the country.
