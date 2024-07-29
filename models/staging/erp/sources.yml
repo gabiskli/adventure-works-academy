@@ -50,7 +50,32 @@ sources:
         description: Lookup table containing the ISO standard codes for countries and regions.
         columns:
           - name: countryregioncode
-            description: ISO standard code for countries and regions.
+            description: ISO standard code for countries and regions. And primary key of the table.
             tests:
               - unique 
               - not_null
+      - name: customer
+        description: Customer information. Can be both individuals and stores that resells Adventure Works products.
+        columns:
+          - name: customerid
+            description: Primary key for the Customers records.
+            tests:
+              - unique
+              - not_null
+      - name: person
+        description: 'Human beings involved with AdventureWorks: employees, customer contacts, and vendor contacts.'
+        columns:
+          - name: businessentityid
+            description: Primary key for Person records.
+            tests:
+              - unique
+              - not_null
+      - name: store
+        description: Customers (resellers) of Adventure Works products.
+        columns:
+          - name: businessentityid
+            description: Primary key for the store customers records
+            tests:
+              - unique 
+              - not_null
+              
