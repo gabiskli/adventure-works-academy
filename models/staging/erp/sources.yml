@@ -78,4 +78,40 @@ sources:
             tests:
               - unique 
               - not_null
-              
+      - name: salesorderheader
+        description: 'General sales order information.'
+        columns:
+          - name: salesorderid
+            description: Primary key for the sales order records
+            tests:
+              - unique 
+              - not_null
+      - name: salesorderdetail
+        description: 'Individual products associated with a specific sales order.'
+        columns:
+          - name: salesorderdetailid
+            description: Primary key for the sales order detail records.
+            tests:
+              - unique 
+              - not_null
+      - name: salesorderheadersalesreason
+        description: 'Cross-reference table mapping sales orders to sales reason codes.'
+        columns:
+          - name: salesreasonid
+            description: Primary key for the sales reason records
+      - name: salesreason
+        description: 'Lookup table of customer purchase reasons.'
+        columns:
+          - name: salesreasonid
+            description: Primary key for the sales reason records
+            tests:
+              - unique
+              - not_null
+      - name: creditcard
+        description: 'Customer credit card information.'
+        columns:
+          - name: creditcardid
+            description: Primary key for the credit card records.
+            tests:
+              - unique 
+              - not_null

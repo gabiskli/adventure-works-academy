@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: dim_sales_reason
+    description: Adventure Works sales reason dimension table. 
+    columns:
+      - name: PK_REASON
+        description: Primary key from the sales reason dimension table.
+          - unique
+          - not_null
+              
+      - name: FK_ORDER
+        description: Foreign key for the sales order records.
+        tests:
+          - not_null
+      
+      - name: REASON_NAME
+        description: Sales reason name.
+
+      - name: REASON_TYPE
+        description: >
+          Category the sales reason belongs to.
+          There were orders withmore than one reason. 
+          They were deduplicated, to maintain only one reason per order.
