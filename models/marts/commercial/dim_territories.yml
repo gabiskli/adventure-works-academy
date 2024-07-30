@@ -7,6 +7,7 @@ models:
     columns:
       - name: PK_TERRITORY
         description: Primary key from the product dimension table.
+        tests:
           - unique
           - not_null
               
