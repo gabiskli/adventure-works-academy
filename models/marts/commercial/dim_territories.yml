@@ -7,6 +7,7 @@ models:
     columns:
       - name: PK_TERRITORY
         description: Primary key from the product dimension table.
+        tests:
           - unique
           - not_null
               
@@ -18,9 +19,17 @@ models:
 
       - name: STATE_CODE
         description: ISO standard region code.
+        tests:
+          - not_null:
+              config:
+                severity: warn
 
       - name: COUNTRY_CODE
         description: ISO standard country code.
+        tests:
+          - not_null:
+              config:
+                severity: warn
       
       - name: COUNTRY_NAME
         description: Name of the country.
