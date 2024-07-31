@@ -5,8 +5,8 @@ with
             , cast(SALESORDERDETAILID  as int) as pk_order_detail
             , cast(ORDERQTY as int) as quantity
             , cast(PRODUCTID as int) as fk_product
-            , cast(UNITPRICE as numeric(18,2)) as unit_price
-            , cast(UNITPRICEDISCOUNT as numeric(18,2)) as discount
+            , cast(UNITPRICE as numeric(18,4)) as unit_price
+            , cast(UNITPRICEDISCOUNT as numeric(18,4)) as discount
             --CARRIERTRACKINGNUMBER
             --SPECIALOFFERID
             --ROWGUID

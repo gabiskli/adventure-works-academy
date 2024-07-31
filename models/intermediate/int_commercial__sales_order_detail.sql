@@ -50,13 +50,13 @@ with
             , QUANTITY
             , unit_price * quantity as total_sold
             , unit_price * (1 - discount) * quantity as net_total_sold
-            , freight / count(*) over (partition by fk_order) as prorated_freight
-            , tax_amount / count(*) over (partition by fk_order) as prorated_taxes
+            , freight / count(*) over (partition by fk_order)::numeric(18,4) as prorated_freight
+            , tax_amount / count(*) over (partition by fk_order)::numeric(18,4) as prorated_taxes
             , (unit_price 
                 * (1 - discount) 
                 * quantity)
                 + freight / count(*) over (partition by fk_order)
-                + tax_amount / count(*) over (partition by fk_order)
+                + tax_amount / count(*) over (partition by fk_order)::numeric(18,4)
             as profit
             , sum(unit_price * (1 - discount) * quantity) over (partition by fk_order) 
             / count(*) over (partition by fk_order) as ticket

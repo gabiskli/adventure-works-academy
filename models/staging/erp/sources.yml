@@ -2,116 +2,453 @@ version: 2
 
 sources:
   - name: erp
-    description: 'This is the ERP sources from adventure works. With data from sales, products, HR, and others.'
+    description: This is the ERP sources from adventure works. With data from sales, products, HR, and others.
     database: fea24_6
     schema: raw_adventure_works
     tables:
       - name: product
-        description: 'Table with product data'
+        description: Table with product data. Products sold or used in the manfacturing of sold products.
         columns:
-          - name: productid
-            description: 'Chave primária da tabela funcionários.Primary key for product records.'
+          - name: PRODUCTID
+            description: Primary key for product records.
             tests:
               - unique
               - not_null
-      - name: productsubcategory
-        description:  'Products subcategories.'
-        columns:
-          - name: productsubcategoryid
-            description: 'Primary key for Product Subcategory records.'
-            tests:
-              - unique
-              - not_null
-      - name: productcategory
-        description: 'High-level product categorization.'
-        columns:
-          - name: productcategoryid
-            description: 'Primary key for Product Category records'
+          - name: NAME
+            description: Name of the product
+          - name: PRODUCTNUMBER
+            description: Unique product identification number.
             tests:
               - unique 
               - not_null
-      - name: address
-        description: 'Street address information for customers, employees, and vendors.'
+          - name: MAKEFLAG
+            description: >
+              Flag that identifies if the product is manufactured by Adventure Work or purchased.
+              0 = Product is purchased, 1 = Product is manufactured in-house.
+            tests:
+              - accepted_values:
+                  values:
+                    - "TRUE"
+                    - "FALSE"
+          - name: FINISHEDGOODSFLAG
+            description: >
+              Flag that identifies if the product will be sold by Adventure Work 
+              or will be used in production of other products.
+              0 = Product is not a salable item. 1 = Product is salable.
+            tests:
+              - accepted_values:
+                  values:
+                    - "TRUE"
+                    - "FALSE"
+          - name: COLOR
+            description: Color of the product
+          - name: SAFETYSTOCKLEVEL
+            description: Minimum inventory quantity.
+          - name: REORDERPOINT
+            description: Inventory level that triggers a purchase order or work order.
+          - name: STANDARDCOST
+            description: Standard cost of the product.
+          - name: LISTPRICE
+            description: Selling price.
+          - name: SIZE
+            description: Product size.
+          - name: SIZEUNITMEASURECODE
+            description: Unit of measure for Size column.
+          - name: WEIGHTUNITMEASURECODE
+            description: Unit of measure for Weight column
+          - name: WEIGHT
+            description: Product weight.
+          - name: DAYSTOMANUFACTURE
+            description: Number of days required to manufacture the product.
+          - name: PRODUCTLINE
+            description: >
+              Product line.
+              R = Road, M = Mountain, T = Touring, S = Standard.
+          - name: CLASS
+            description: >
+                Class of the product
+                H = High, M = Medium, L = Low
+          - name: STYLE
+            description: >
+              Style of the product.
+              W = Womens, M = Mens, U = Universal
+          - name: PRODUCTSUBCATEGORYID
+            description: Product is a member of this product subcategory. Foreign key to productsubcategory table.
+          - name: PRODUCTMODELID
+            description: Product is a member of this product model. Foreign key to productmodel table
+          - name: SELLSTARTDATE
+            description: Date the product was available for sale.
+          - name: SELLENDDATE
+            description: Date the product was no longer available for sale.
+          - name: DISCONTINUEDDATE
+            description: Date the product was discontinued.
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+      - name: productsubcategory
+        description:  Products subcategories.
         columns:
-          - name: addressid
+          - name: PRODUCTSUBCATEGORYID
+            description: Primary key for Product Subcategory records.
+            tests:
+              - unique
+              - not_null
+          - name: PRODUCTCATEGORYID
+            description: Product category identification number. Foreign key to productcategory table.
+            tests:
+              - not_null
+          - name: NAME
+            description: Subcategory description.
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
+      - name: productcategory
+        description: High-level product categorization.
+        columns:
+          - name: productcategoryid
+            description: Primary key for Product Category records
+            tests:
+              - unique 
+              - not_null
+          - name: NAME
+            description: Category description.
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
+      - name: address
+        description: Street address information for customers, employees, and vendors.
+        columns:
+          - name: ADDRESSID
             description: Primary key for Address records.
             tests:
               - unique
               - not_null
+          - name: ADDRESSLINE1
+            description: First street address line.
+          - name: ADDRESSLINE2
+            description: Second street address line.
+          - name: CITY
+            description: Name of the city.
+          - name: STATEPROVINCEID
+            description: Unique identification number for the state or province. Foreign key to stateprovince table.
+            tests:
+              - not_null
+          - name: POSTALCODE
+            description: Postal code for the street address.
+          - name: SPATIALLOCATION
+            description: Latitude and longitude of this address, saved in geographical type.
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated
+
       - name: stateprovince
         description: State and province lookup table
         columns:
-          - name: stateprovinceid
+          - name: STATEPROVINCEID
             description: Primary key for StateProvince records
             tests:
               - unique 
               - not_null
+          - name: STATEPROVINCECODE
+            description: ISO standard state or province code.
+            tests:
+              - unique 
+              - not_null
+          - name: COUNTRYREGIONCODE
+            description: ISO standard country or region code. Foreign key to countryregion table.
+            tests:
+              - not_null
+          - name: ISONLYSTATEPROVINCEFLAG
+            description: >
+              Flag that indicated if the state code exists.
+              0 = StateProvinceCode exists. 1 = StateProvinceCode unavailable, using CountryRegionCode.
+            tests:
+              - accepted_values:
+                  values:
+                    - "TRUE"
+                    - "FALSE"
+          - name: NAME
+            description: State or province description.
+          - name: TERRITORYID
+            description: ID of the territory in which the state or province is located.
+            tests:
+              - not_null
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
       - name: countryregion
         description: Lookup table containing the ISO standard codes for countries and regions.
         columns:
-          - name: countryregioncode
+          - name: COUNTRYREGIONCODE
             description: ISO standard code for countries and regions. And primary key of the table.
             tests:
               - unique 
               - not_null
+          - name: NAME
+            description: Country or region name.
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
       - name: customer
-        description: Customer information. Can be both individuals and stores that resells Adventure Works products.
+        description: >
+          Customer information. Can be both individuals and stores that resells Adventure Works products.
+          That is why personid and storeid columns will have nulls.
         columns:
-          - name: customerid
+          - name: CUSTOMERID
             description: Primary key for the Customers records.
             tests:
               - unique
               - not_null
+          - name: PERSONID
+            description: Foreign key to person table.
+          - name: STOREID
+            description: Foreign key to store table.
+          - name: TERRITORYID
+            description: ID of the territory in which the customer is located.
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+            
       - name: person
         description: 'Human beings involved with AdventureWorks: employees, customer contacts, and vendor contacts.'
         columns:
-          - name: businessentityid
+          - name: BUSINESSENTITYID
             description: Primary key for Person records.
             tests:
               - unique
               - not_null
+          - name: PERSONTYPE
+            description: >
+              Primary type of person: SC = Store Contact, IN = Individual (retail) customer, 
+              SP = Sales person, EM = Employee (non-sales), VC = Vendor contact, GC = General contact.
+            tests:
+              - accepted_values:
+                  values:
+                    - "SC"
+                    - "IN"
+                    - "SP"
+                    - "EM"
+                    - "VC"
+                    - "GC"
+          - name: NAMESTYLE
+            description: >
+              0 = The data in FirstName and LastName are stored in western style (firs name, last name) order. 
+              1 = Eastern style (last name, first name) order.
+            tests:
+              - accepted_values:
+                  values:
+                    - "TRUE"
+                    - "FALSE"
+          - name: TITLE
+            description: A courtesy title. For example, Mr. or Ms.
+          - name: FIRSTNAME
+            description: First name of the person.
+          - name: MIDDLENAME
+            description: Middle name or middle initial of the person.
+          - name: LASTNAME
+            description: Last name of the person.
+          - name: SUFFIX
+            description: Surname suffix. For example, Sr. or Jr.
+          - name: EMAILPROMOTION
+            description: >
+              Categorizing people by their wish to receive promotion by email.
+              0 = Contact does not wish to receive e-mail promotions, 
+              1 = Contact does wish to receive e-mail promotions from AdventureWorks, 
+              2 = Contact does wish to receive e-mail promotions from AdventureWorks and selected partners.
+            tests:
+              - accepted_values:
+                  values:
+                    - "0"
+                    - "1"
+                    - "2"
+          - name: ADDITIONALCONTACTINFO
+            description: Additional contact information about the person stored in xml format.
+          - name: DEMOGRAPHICS
+            description: >
+              Personal information such as hobbies, and income collected from online shoppers. 
+              Used for sales analysis.
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
       - name: store
         description: Customers (resellers) of Adventure Works products.
         columns:
-          - name: businessentityid
+          - name: BUSINESSENTITYID
             description: Primary key for the store customers records
             tests:
               - unique 
               - not_null
+          - name: NAME
+            description: Name of the store.
+          - name: SALESPERSONID
+            description: ID of the sales person assigned to the customer. Foreign key to salesperson table.
+            tests:
+              - not_null
+          - name: DEMOGRAPHICS
+            description: >
+              Demographic informationg about the store such as the number of employees, 
+              annual sales and store type.
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
       - name: salesorderheader
-        description: 'General sales order information.'
+        description: General sales order information.
         columns:
-          - name: salesorderid
+          - name: SALESORDERID
             description: Primary key for the sales order records
             tests:
               - unique 
               - not_null
+          - name: REVISIONNUMBER
+            description: Incremental number to track changes to the sales order over time.
+            tests:
+              - not_null
+          - name: ORDERDATE
+            description: Dates the sales order was created.
+            tests:
+              - not_null
+          - name: DUEDATE
+            description: Date the order is due to the customer.
+          - name: SHIPDATE
+            description: Date the order was shipped to the customer.
+          - name: STATUS
+            description: >
+              Order current status. 
+              1 = In process; 2 = Approved; 3 = Backordered; 
+              4 = Rejected;  5 = Shipped; 6 = Cancelled
+            tests:
+              - accepted_values:
+                  values:
+                    - "1"
+                    - "2"
+                    - "3"
+                    - "4"
+                    - "5"
+                    - "6"
+          - name: ONLINEORDERFLAG
+            description: >
+              Flag that indicates which kind of person placed the order.
+              0 = Order placed by sales person. 1 = Order placed online by customer
+            tests:
+              - accepted_values:
+                  values:
+                    - "FALSE"
+                    - "TRUE"
+          - name: PURCHASEORDERNUMBER
+            description: Unique sales order identification number.
+          - name: ACCOUNTNUMBER
+            description: Financial accounting number reference.
+          - name: CUSTOMERID
+            description: Customer identification number. Foreign key to customer table.
+          - name: SALESPERSONID
+            description: Sales person who created the sales order. Foreign key to salesperson table.
+          - name: TERRITORYID
+            description: Territory in which the sale was made.
+          - name: BILLTOADDRESSID
+            description: Customer billing address. Foreign key to address table.
+          - name: SHIPTOADDRESSID
+            description: Customer shipping address. Foreign key to address table.
+          - name: SHIPMETHODID
+            description: Shipping method. Foreign key to shipmethod table.
+          - name: CREDITCARDID
+            description: Credit card identification number. Foreign key to creditcard id.
+          - name: CREDITCARDAPPROVALCODE
+            description: Approval code provided by the credit card company.
+          - name: CURRENCYRATEID
+            description: Currency exchange rate used. Foreign key to currencyrate table.
+          - name: SUBTOTAL
+            description: >
+              Sales subtotal. 
+              Computed as SUM(quanity * unitprice * (1- discount))for the appropriate SalesOrderID.
+          - name: TAXAMT
+            description: Tax amount.
+          - name: FREIGHT
+            description: Shipping cost.
+          - name: TOTALDUE
+            description: Total due from customer. Computed as Subtotal + TaxAmt + Freight.
+          - name: COMMENT
+            description: Sales representative comments.
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
       - name: salesorderdetail
-        description: 'Individual products associated with a specific sales order.'
+        description: Individual products associated with a specific sales order.
         columns:
-          - name: salesorderdetailid
+          - name: SALESORDERDETAILID
             description: Primary key for the sales order detail records.
             tests:
               - unique 
               - not_null
+          - name: CARRIERTRACKINGNUMBER
+            description: Shipment tracking number supplied by the shipper.
+          - name: ORDERQTY
+            description: Quantity ordered per product.
+          - name: PRODUCTID
+            description: Product sold to customer. Foreign key to product table.
+            tests:
+              - not_null
+          - name: SPECIALOFFERID
+            description: Promotional code. Foreign key to speccialoffer table.
+            tests:
+              - not_null
+          - name: UNITPRICE
+            description: Selling price of a single product.
+          - name: UNITPRICEDISCOUNT
+            description: Discount amount.
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
       - name: salesorderheadersalesreason
-        description: 'Cross-reference table mapping sales orders to sales reason codes.'
+        description: Cross-reference table mapping sales orders to sales reason codes.
         columns:
-          - name: salesreasonid
-            description: Primary key for the sales reason records
+          - name: SALESORDERID
+            description: Foreign key for the sales order records.
+          - name: SALESREASONID
+            description: Foreign key to sales reason records.
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
       - name: salesreason
-        description: 'Lookup table of customer purchase reasons.'
+        description: Lookup table of customer purchase reasons.
         columns:
-          - name: salesreasonid
+          - name: SALESREASONID
             description: Primary key for the sales reason records
             tests:
               - unique
               - not_null
+          - name: NAME 
+            description: Sales reason description.
+            tests:
+              - not_null
+          - name: REASONTYPE 
+            description: Category the sales reason belongs to.
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+
       - name: creditcard
-        description: 'Customer credit card information.'
+        description: Customer credit card information.
         columns:
-          - name: creditcardid
+          - name: CREDITCARDID
             description: Primary key for the credit card records.
             tests:
               - unique 
               - not_null
+          - name: CARDTYPE
+            description: Credit card name.
+          - name: CARDNUMBER
+            description: Credit card number.
+            tests:
+              - not_null
+          - name: EXPMONTH
+            description: Credit card expiration month.
+          - name: EXPYEAR
+            description: Credit card expiration year.
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.

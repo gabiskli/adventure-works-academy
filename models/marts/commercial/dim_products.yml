@@ -26,6 +26,14 @@ models:
 
       - name: IS_DISCONTINUED
         description: Flag that indicates if the product is still being sold.
+        tests:
+          - not_null:
+              config:
+                severity: warn
+          - accepted_values:
+              values:
+                - "true"
+                - "false"
 
       - name: DT_MODIFIED
         description: Date and time the record was last updated.

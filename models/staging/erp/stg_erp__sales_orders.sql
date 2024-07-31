@@ -2,15 +2,15 @@ with
     src_sales_orders as (
         select
             cast(SALESORDERID as int) as pk_order
-            , cast(ORDERDATE as datetime) as dt_order
-            , cast(DUEDATE as datetime) as dt_due
+            , cast(ORDERDATE as datetime)::date as dt_order
+            , cast(DUEDATE as datetime)::date as dt_due
             , cast(CUSTOMERID as int) as fk_customer
             , cast(BILLTOADDRESSID as int) as fk_territory
             , cast(CREDITCARDID as int) as fk_card
-            , cast(SUBTOTAL as numeric(18,2)) as gross_profit
-            , cast(TAXAMT as numeric(18,2)) as tax_amount
-            , cast(FREIGHT as numeric(18,2)) as freight
-            , cast(TOTALDUE as numeric(18,2)) as net_profit
+            , cast(SUBTOTAL as numeric(18,4)) as gross_profit
+            , cast(TAXAMT as numeric(18,4)) as tax_amount
+            , cast(FREIGHT as numeric(18,4)) as freight
+            , cast(TOTALDUE as numeric(18,4)) as net_profit
             , case
                 when status = 1 then 'In progress'
                 when status = 2 then 'Approved'

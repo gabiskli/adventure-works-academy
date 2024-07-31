@@ -20,6 +20,9 @@ models:
 
       - name: FK_PRODUCT
         description: Foreign key for the product dimension
+      
+      - name: FK_ORDER
+        description: Foreign key for the order. This can be used for aggregations.
 
       - name: DT_ORDER
         description: Date the sales order was created.
