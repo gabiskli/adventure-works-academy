@@ -1,15 +1,22 @@
 version: 2
 
 models:
-  - name: fact_sales
+  - name: int_commercial__sales_order_detail
     description: >
-      Adventure Works sales fact table.
+      Adventure Works saler order detail intermediate table.
+      Created for joining order, orde details and credit card tables and calculate relevant business metrics. 
     columns:
-      
       - name: PK_ORDER_DETAIL
-        description: Primary key for the fact sales table. Indicates each line of an order.
+        description: Primary key from the sales order detail table.
         tests:
           - unique
+          - not_null
+              
+      - name: FK_ORDER
+        description: >
+          Foreign key for the sales order header table. 
+          This represents an order. While the pk_order_detail represents a line in the order.
+        tests:
           - not_null
 
       - name: FK_CUSTOMER
@@ -20,9 +27,6 @@ models:
 
       - name: FK_PRODUCT
         description: Foreign key for the product dimension.
-      
-      - name: FK_ORDER
-        description: Foreign key for the order. This can be used for aggregations.
 
       - name: DT_ORDER
         description: Date the sales order was created.
@@ -38,9 +42,6 @@ models:
 
       - name: CARD_TYPE
         description: Credit card name.
-
-      - name: REASON_NAME
-        description: Sales reason description.
 
       - name: UNIT_PRICE
         description: Selling price of a single product.
@@ -58,7 +59,7 @@ models:
         description: Per product subtotal. Computed as unit_price * (1 - discount) * quantity.
 
       - name: PRORATED_FREIGHT
-        description: Shipping cost prorated by order line. 
+        description: Shipping cost prorated by order line.
 
       - name: PRORATED_TAXES
         description: Tax amount prorated by oreder line.
