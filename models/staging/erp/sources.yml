@@ -452,3 +452,12 @@ sources:
             description: Credit card expiration year.
           - name: MODIFIEDDATE
             description: Date and time the record was last updated.
+      - name: personcreditcard
+        description: Cross-reference table mapping people to their credit card information in the CreditCard table.
+        columns:
+          - name: BUSINESSENTITYID
+            description: Business entity identification number.
+          - name: CREDITCARDID
+            description: Credit card identification number.
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
