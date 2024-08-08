@@ -12,6 +12,10 @@ with
             , cast(FREIGHT as numeric(18,4)) as freight
             , cast(TOTALDUE as numeric(18,4)) as net_profit
             , case
+                when SALESPERSONID::int is null then 0
+                else SALESPERSONID::int
+            end as fk_vendor
+            , case
                 when status = 1 then 'In progress'
                 when status = 2 then 'Approved'
                 when status =3 then 'Backordered'
@@ -20,12 +24,14 @@ with
                 when status = 6 then 'Cancelled'
                 else null
             end as status
+            , case 
+                when ONLINEORDERFLAG = 'True' then 'Online'
+                when ONLINEORDERFLAG = 'False' then 'Vendor'
+            end as order_type
             --REVISIONNUMBER
             --SHIPDATE
-            --ONLINEORDERFLAG
             --PURCHASEORDERNUMBER
             --ACCOUNTNUMBER
-            --SALESPERSONID
             --TERRITORYID
             --SHIPTOADDRESSID
             --SHIPMETHODID

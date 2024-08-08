@@ -452,3 +452,43 @@ sources:
             description: Credit card expiration year.
           - name: MODIFIEDDATE
             description: Date and time the record was last updated.
+      - name: personcreditcard
+        description: Cross-reference table mapping people to their credit card information in the CreditCard table.
+        columns:
+          - name: BUSINESSENTITYID
+            description: Business entity identification number.
+          - name: CREDITCARDID
+            description: Credit card identification number.
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.
+      - name: salesperson
+        description: Sales representative current information.
+        columns:
+          - name: BUSINESSENTITYID
+            description: Primary key for SalesPerson records.
+            tests:
+              - unique
+              - not_null
+          - name: TERRITORYID
+            description: Territory currently assigned to.
+          - name: SALESQUOTA
+            description: Projected yearly sales.
+          - name: BONUS
+            description: >
+              Bonus due if quota is met.
+              Default: 0.00
+          - name: COMMISSIONPCT
+            description: >
+              Commision percent received per sale.
+              Default: 0.00 
+          - name: SALESYTD
+            description: >
+              Sales total year to date.
+              Default: 0.00
+          - name: SALESLASTYEAR
+            description: >
+              Sales total of previous year.
+              Default: 0.00
+          - name: ROWGUID
+          - name: MODIFIEDDATE
+            description: Date and time the record was last updated.

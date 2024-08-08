@@ -11,6 +11,10 @@ with
         select *
         from {{ ref('dim_territories') }}
     )
+    , dim_vendors as (
+        select *
+        from {{ ref('dim_vendors') }}
+    )
     , int_sales_reason as (
         select *
         from {{ ref('int_commercial__sales_reason') }}
