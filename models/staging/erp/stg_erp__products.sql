@@ -24,7 +24,7 @@ with
             --REORDERPOINT
             --STANDARDCOST
             --LISTPRICE
-           ---SIZE
+            --SIZE
             --SIZEUNITMEASURECODE
             --WEIGHTUNITMEASURECODE
             --WEIGHT

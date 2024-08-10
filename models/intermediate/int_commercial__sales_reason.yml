@@ -4,18 +4,19 @@ models:
   - name: int_commercial__sales_reason
     description: >
       Adventure Works saler order detail intermediate table.
-      Created for joining order, orde details and credit card tables and calculate relevant business metrics. 
+      Created for joining sales reason per order id. 
+      One order can have more than one reason, here we will consider only one of them. 
     columns:
-      - name: PK_REASON
-        description: Primary key from the sales reason table.
+      - name: FK_ORDER
+        description: Foreign key for the sales order header table.
         tests:
           - not_null
-
-      - name: FK_ORDER
-        description: Foreign key for the sales order header table. 
+          - unique 
 
       - name: REASON_NAME
-        description: Sales reason description.
-
-      - name: REASON_TYPE 
-        description: Category the sales reason belongs to.
+        description: >
+          Sales reason name. Regrouped sales reason and type.
+          Joined reason type 'Marketing' in one group.
+          Reasons that had something to do with price (price or promotion) were grouped together in 'Price'.
+          Reason that had something to do with production were grouped together in 'Quality'.
+          And other reasons were grouped in 'Other'.

@@ -20,10 +20,13 @@ with
     )
     , deduplicate as (
         select
-            PK_REASON
-            , FK_ORDER
-            , REASON_NAME
-            , REASON_TYPE
+            FK_ORDER
+            , case 
+                when pk_reason in ( 1, 2) then 'Price'
+                when pk_reason in (3,4,7,8) then 'Marketing'
+                when pk_reason in (5, 9) then 'Quality'
+                when pk_reason in (6, 10) then 'Other'
+            end as reason_name --regrouping reason in fewer categories.
         from joined
         where num_rows = 1
     )

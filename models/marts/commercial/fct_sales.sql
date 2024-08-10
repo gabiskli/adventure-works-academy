@@ -34,7 +34,10 @@ with
             , int_sales.DT_DUE
             , int_sales.STATUS
             , int_sales.CARD_TYPE
-            , int_sales_reason.REASON_NAME
+            , case 
+                when int_sales_reason.REASON_NAME is null then 'Not informed'
+                else int_sales_reason.REASON_NAME
+            end as REASON_NAME
             , int_sales.UNIT_PRICE
             , int_sales.DISCOUNT
             , int_sales.QUANTITY
