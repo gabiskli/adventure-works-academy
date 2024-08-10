@@ -44,14 +44,19 @@ with
             , DT_ORDER
             , DT_DUE
             , STATUS
-            , CARD_TYPE
+            , case 
+                when CARD_TYPE is null then 'Other'
+                else CARD_TYPE
+            end as CARD_TYPE
             , UNIT_PRICE
             , DISCOUNT
             , QUANTITY
             , unit_price * quantity as total_sold
             , unit_price * (1 - discount) * quantity as net_total_sold
             , freight / count(*) over (partition by fk_order)::numeric(18,4) as prorated_freight
-            , tax_amount / count(*) over (partition by fk_order)::numeric(18,4) as prorated_taxes
+            , (tax_amount 
+                * total_sold 
+                / sum(total_sold) over (partition by fk_order))::numeric(18,4) as prorated_taxes
             , (unit_price 
                 * (1 - discount) 
                 * quantity)
