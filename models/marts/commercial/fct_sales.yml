@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: fact_sales
+  - name: fct_sales
     description: >
       Adventure Works sales fact table.
     columns:
